@@ -2,10 +2,9 @@ name = "toplolipop"
 compatibility_date = "2024-09-09"
 pages_build_output_dir = "./dist"
 
-[[d1_databases]]
-binding = "DB"
-database_name = "toplolipop-db"
-database_id = "b55a9d58-3356-436d-9361-ced89027d02a"
+[vars]
+SUPABASE_URL = "https://njorawqdbarmainnhdgs.supabase.co"
+SUPABASE_KEY = "sb_publishable_xbDvlRBjrjOZlqgMqiTuPA_rhfkdrJT"
 
 # Uncomment after creating the R2 bucket with: wrangler r2 bucket create toplolipop-storage
 # [[r2_buckets]]
