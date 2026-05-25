@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-200 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-300;
+  }
+}
+
+@layer components {
+  .fc {
+    --fc-border-color: theme('colors.gray.200');
+    --fc-button-bg-color: theme('colors.brand.600');
+    --fc-button-border-color: theme('colors.brand.600');
+    --fc-button-hover-bg-color: theme('colors.brand.700');
+    --fc-button-hover-border-color: theme('colors.brand.700');
+    --fc-button-active-bg-color: theme('colors.brand.700');
+    --fc-button-active-border-color: theme('colors.brand.700');
+    --fc-today-bg-color: theme('colors.brand.50');
+    --fc-event-border-color: transparent;
+    --fc-page-bg-color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .fc .fc-toolbar-title {
+    @apply text-lg font-semibold text-gray-900;
+  }
+
+  .fc .fc-button {
+    @apply text-sm font-medium rounded-lg px-3 py-1.5 capitalize;
+  }
+
+  .fc .fc-daygrid-event {
+    @apply rounded font-medium text-xs px-1.5 py-0.5 cursor-pointer;
+  }
+
+  .fc .fc-col-header-cell-cushion,
+  .fc .fc-daygrid-day-number {
+    @apply text-sm text-gray-600 no-underline;
+  }
+
+  .fc .fc-day-today .fc-daygrid-day-number {
+    @apply bg-brand-600 text-white rounded-full w-7 h-7 flex items-center justify-center;
+  }
+}
