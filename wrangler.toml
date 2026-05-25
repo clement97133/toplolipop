@@ -5,7 +5,7 @@ pages_build_output_dir = "./dist"
 [[d1_databases]]
 binding = "DB"
 database_name = "toplolipop-db"
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "b55a9d58-3356-436d-9361-ced89027d02a"
 
 # Uncomment after creating the R2 bucket with: wrangler r2 bucket create toplolipop-storage
 # [[r2_buckets]]
