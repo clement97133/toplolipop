@@ -6,16 +6,20 @@
   * { box-sizing: border-box; }
 
   html {
-    /* Fond crème chaud partout, y compris derrière la nav */
     background-color: #FDF8EE;
+    /* Bloquer tout scroll horizontal — aucun élément ne sort de l'écran */
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
   body {
     @apply bg-cream-100 text-navy-700 antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-    /* Espace pour la bottom nav fixe */
     padding-bottom: env(safe-area-inset-bottom, 0);
+    /* Bloquer tout scroll horizontal */
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
   ::-webkit-scrollbar { width: 5px; height: 5px; }
@@ -91,5 +95,17 @@
   /* ── Bottom nav ──────────────────────────────────── */
   .bottom-nav-safe {
     padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  /* ── Masquer la scrollbar (utilitaire) ───────────── */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* ── Toggle switch ───────────────────────────────── */
+  .toggle-track {
+    @apply relative w-12 h-6 rounded-full transition-colors duration-200 cursor-pointer;
+  }
+  .toggle-thumb {
+    @apply absolute top-1 left-1 w-4 h-4 rounded-full bg-white shadow transition-transform duration-200;
   }
 }

@@ -31,35 +31,27 @@ function CollaboratorFormModal({ open, onClose, initial }: { open: boolean; onCl
     <Modal open={open} onClose={onClose} title={initial ? 'Modifier le collaborateur' : 'Nouveau collaborateur'} size="lg"
       footer={<><Button variant="secondary" onClick={onClose}>Annuler</Button><Button onClick={() => mutate(form)} loading={isPending}>Enregistrer</Button></>}
     >
-      <div className="grid grid-cols-2 gap-4">
-        <Input label="Prénom" required value={form.first_name ?? ''} onChange={(e) => set('first_name', e.target.value)} />
-        <Input label="Nom" required value={form.last_name ?? ''} onChange={(e) => set('last_name', e.target.value)} />
-        <Select label="Rôle" required value={form.role ?? 'babysitter'} onChange={(e) => set('role', e.target.value)}
-          options={Object.entries(COLLABORATOR_ROLE_LABELS).map(([v, l]) => ({ value: v, label: l }))} />
-        <Select label="Statut" value={form.status ?? 'active'} onChange={(e) => set('status', e.target.value)}
-          options={[{ value: 'active', label: 'Actif' }, { value: 'inactive', label: 'Inactif' }]} />
-        <Input label="Téléphone" type="tel" value={form.phone ?? ''} onChange={(e) => set('phone', e.target.value)} />
-        <Input label="Email" type="email" value={form.email ?? ''} onChange={(e) => set('email', e.target.value)} />
-        <Input label="Tarif horaire (€)" type="number" step="0.5" value={form.hourly_rate ?? ''} onChange={(e) => set('hourly_rate', parseFloat(e.target.value) || null)} />
-        <div className="col-span-2">
-          <Input label="Adresse" value={form.address ?? ''} onChange={(e) => set('address', e.target.value)} />
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Input label="Prénom" required value={form.first_name ?? ''} onChange={(e) => set('first_name', e.target.value)} />
+          <Input label="Nom" required value={form.last_name ?? ''} onChange={(e) => set('last_name', e.target.value)} />
+          <Select label="Rôle" required value={form.role ?? 'babysitter'} onChange={(e) => set('role', e.target.value)}
+            options={Object.entries(COLLABORATOR_ROLE_LABELS).map(([v, l]) => ({ value: v, label: l }))} />
+          <Select label="Statut" value={form.status ?? 'active'} onChange={(e) => set('status', e.target.value)}
+            options={[{ value: 'active', label: 'Actif' }, { value: 'inactive', label: 'Inactif' }]} />
+          <Input label="Téléphone" type="tel" value={form.phone ?? ''} onChange={(e) => set('phone', e.target.value)} />
+          <Input label="Email" type="email" value={form.email ?? ''} onChange={(e) => set('email', e.target.value)} />
+          <Input label="Tarif horaire (€)" type="number" step="0.5" value={form.hourly_rate ?? ''} onChange={(e) => set('hourly_rate', parseFloat(e.target.value) || null)} />
         </div>
-        <div className="col-span-2">
-          <Input label="Compétences (virgule)" value={typeof form.skills === 'string' ? form.skills : parseJson<string>(form.skills).join(', ')}
-            onChange={(e) => setForm((f) => ({ ...f, skills: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) as unknown as string }))}
-            placeholder="Premiers secours, Animation, Cuisine…" />
-        </div>
-        <div className="col-span-2">
-          <Input label="Langues" value={typeof form.languages === 'string' ? form.languages : parseJson<string>(form.languages).join(', ')}
-            onChange={(e) => setForm((f) => ({ ...f, languages: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) as unknown as string }))}
-            placeholder="Français, Anglais, Espagnol…" />
-        </div>
-        <div className="col-span-2">
-          <Textarea label="Expérience" value={form.experience ?? ''} onChange={(e) => set('experience', e.target.value)} rows={2} />
-        </div>
-        <div className="col-span-2">
-          <Textarea label="Notes internes" value={form.notes ?? ''} onChange={(e) => set('notes', e.target.value)} rows={2} />
-        </div>
+        <Input label="Adresse" value={form.address ?? ''} onChange={(e) => set('address', e.target.value)} />
+        <Input label="Compétences (virgule)" value={typeof form.skills === 'string' ? form.skills : parseJson<string>(form.skills).join(', ')}
+          onChange={(e) => setForm((f) => ({ ...f, skills: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) as unknown as string }))}
+          placeholder="Premiers secours, Animation, Cuisine…" />
+        <Input label="Langues" value={typeof form.languages === 'string' ? form.languages : parseJson<string>(form.languages).join(', ')}
+          onChange={(e) => setForm((f) => ({ ...f, languages: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) as unknown as string }))}
+          placeholder="Français, Anglais, Espagnol…" />
+        <Textarea label="Expérience" value={form.experience ?? ''} onChange={(e) => set('experience', e.target.value)} rows={2} />
+        <Textarea label="Notes internes" value={form.notes ?? ''} onChange={(e) => set('notes', e.target.value)} rows={2} />
       </div>
     </Modal>
   )
@@ -105,13 +97,13 @@ export default function CollaboratorsPage() {
 
       <div className="px-4 py-5 max-w-7xl mx-auto">
 
-      <div className="flex flex-wrap items-center gap-3 mb-5">
-        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher…" className="max-w-xs" />
+      <div className="flex flex-col gap-3 mb-5">
+        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher…" className="w-full" />
         <Select
           value={roleFilter}
           onChange={(e) => setRoleFilter(e.target.value)}
           options={[{ value: 'all', label: 'Tous les rôles' }, ...Object.entries(COLLABORATOR_ROLE_LABELS).map(([v, l]) => ({ value: v, label: l }))]}
-          className="w-48"
+          className="w-full"
         />
       </div>
 

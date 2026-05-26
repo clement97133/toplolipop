@@ -104,23 +104,17 @@ function ClientFormModal({ open, onClose }: { open: boolean; onClose: () => void
     <Modal open={open} onClose={onClose} title="Nouveau client" size="lg"
       footer={<><Button variant="secondary" onClick={onClose}>Annuler</Button><Button onClick={submit} loading={isPending}>Créer le client</Button></>}
     >
-      <div className="grid grid-cols-2 gap-4">
-        <Input label="Prénom" required value={form.first_name ?? ''} onChange={(e) => set('first_name', e.target.value)} />
-        <Input label="Nom" required value={form.last_name ?? ''} onChange={(e) => set('last_name', e.target.value)} />
-        <Input label="Téléphone" type="tel" value={form.phone ?? ''} onChange={(e) => set('phone', e.target.value)} />
-        <Input label="Email" type="email" value={form.email ?? ''} onChange={(e) => set('email', e.target.value)} />
-        <div className="col-span-2">
-          <Input label="Adresse" value={form.address ?? ''} onChange={(e) => set('address', e.target.value)} />
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Input label="Prénom" required value={form.first_name ?? ''} onChange={(e) => set('first_name', e.target.value)} />
+          <Input label="Nom" required value={form.last_name ?? ''} onChange={(e) => set('last_name', e.target.value)} />
+          <Input label="Téléphone" type="tel" value={form.phone ?? ''} onChange={(e) => set('phone', e.target.value)} />
+          <Input label="Email" type="email" value={form.email ?? ''} onChange={(e) => set('email', e.target.value)} />
         </div>
-        <div className="col-span-2">
-          <Input label="Adresse de l'événement" value={form.event_address ?? ''} onChange={(e) => set('event_address', e.target.value)} />
-        </div>
-        <div className="col-span-2">
-          <Input label="Tags (séparés par virgule)" value={tagsInput} onChange={(e) => setTagsInput(e.target.value)} placeholder="Ex: VIP, Fidèle, Particulier…" />
-        </div>
-        <div className="col-span-2">
-          <Textarea label="Notes" value={form.notes ?? ''} onChange={(e) => set('notes', e.target.value)} rows={3} placeholder="Informations importantes, préférences…" />
-        </div>
+        <Input label="Adresse" value={form.address ?? ''} onChange={(e) => set('address', e.target.value)} />
+        <Input label="Adresse de l'événement" value={form.event_address ?? ''} onChange={(e) => set('event_address', e.target.value)} />
+        <Input label="Tags (séparés par virgule)" value={tagsInput} onChange={(e) => setTagsInput(e.target.value)} placeholder="Ex: VIP, Fidèle, Particulier…" />
+        <Textarea label="Notes" value={form.notes ?? ''} onChange={(e) => set('notes', e.target.value)} rows={3} placeholder="Informations importantes, préférences…" />
       </div>
     </Modal>
   )
