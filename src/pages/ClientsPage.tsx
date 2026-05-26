@@ -136,7 +136,7 @@ export default function ClientsPage() {
     <div className="min-h-screen bg-cream-100">
       {/* Header marine */}
       <div
-        className="px-5 pt-12 pb-6"
+        className="px-5 header-top pb-6"
         style={{ background: 'linear-gradient(145deg, #1A2567 0%, #243580 100%)' }}
       >
         <div className="flex items-center justify-between">

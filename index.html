@@ -2,12 +2,72 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TOPLOLIPOP — Gestion événementielle</title>
+
+    <!--
+      viewport-fit=cover : étend le contenu sous le notch/dynamic island
+      maximum-scale=1    : empêche le zoom automatique sur les inputs
+      user-scalable=no   : désactive le pinch-to-zoom
+    -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+
+    <title>TOPLOLIPOP</title>
+
+    <!-- ── PWA / App manifest ──────────────────────────── -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- ── Couleur du status bar / navigateur ─────────── -->
+    <meta name="theme-color" content="#1A2567" />
+
+    <!-- ── iOS "Add to Home Screen" (mode app standalone) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- black-translucent = le contenu passe sous le status bar, géré par safe-area -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="TopliPop" />
+
+    <!-- Icône Apple touch -->
+    <link rel="apple-touch-icon" href="/icons/icon.svg" />
+
+    <!-- Android / Chrome standalone -->
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- Désactiver le formatage automatique des numéros de téléphone iOS -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Description SEO -->
+    <meta
+      name="description"
+      content="Gestion complète pour votre entreprise événementielle — Art & Events St Barthélemy"
+    />
+
+    <!-- ── Police Inter ───────────────────────────────── -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <meta name="description" content="Gestion complète pour votre entreprise événementielle" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--
+      Script inline : définit --dvh pour les anciens iOS qui ignorent dvh.
+      Également corrige le flash de hauteur incorrecte sur Safari.
+    -->
+    <script>
+      // Hauteur dynamique pour iOS Safari (100dvh fallback)
+      function setVH() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      }
+      setVH();
+      window.addEventListener('resize', setVH);
+    </script>
+
+    <style>
+      /* Empêche le flash blanc au chargement */
+      html { background: #FDF8EE; }
+    </style>
   </head>
   <body>
     <div id="root"></div>

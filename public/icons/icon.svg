@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A2567"/>
+      <stop offset="100%" stop-color="#243580"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5C842"/>
+      <stop offset="100%" stop-color="#C9921A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fond arrondi -->
+  <rect width="512" height="512" rx="100" fill="url(#bg)"/>
+
+  <!-- Étoiles décoratives -->
+  <circle cx="80" cy="90" r="6" fill="#F5C842" opacity="0.5"/>
+  <circle cx="430" cy="80" r="5" fill="#F5C842" opacity="0.4"/>
+  <circle cx="450" cy="150" r="4" fill="#F5C842" opacity="0.3"/>
+  <circle cx="65" cy="200" r="4" fill="#F5C842" opacity="0.3"/>
+
+  <!-- Couronne -->
+  <!-- Orbe centre haut -->
+  <circle cx="256" cy="120" r="20" fill="url(#gold)"/>
+  <!-- Orbe gauche -->
+  <circle cx="128" cy="210" r="16" fill="url(#gold)"/>
+  <!-- Orbe droite -->
+  <circle cx="384" cy="210" r="16" fill="url(#gold)"/>
+
+  <!-- Corps de la couronne -->
+  <path d="M 100 300 L 140 175 L 256 250 L 372 175 L 412 300 Z"
+        fill="url(#gold)"/>
+
+  <!-- Château simplifié -->
+  <rect x="170" y="300" width="172" height="110" rx="6" fill="url(#gold)"/>
+
+  <!-- Tours du château -->
+  <rect x="162" y="276" width="48" height="70" rx="6" fill="url(#gold)"/>
+  <rect x="302" y="276" width="48" height="70" rx="6" fill="url(#gold)"/>
+
+  <!-- Crénaux gauche -->
+  <rect x="162" y="264" width="12" height="16" rx="3" fill="url(#gold)"/>
+  <rect x="178" y="264" width="12" height="16" rx="3" fill="url(#gold)"/>
+  <rect x="194" y="264" width="12" height="16" rx="3" fill="url(#gold)"/>
+
+  <!-- Crénaux droite -->
+  <rect x="302" y="264" width="12" height="16" rx="3" fill="url(#gold)"/>
+  <rect x="318" y="264" width="12" height="16" rx="3" fill="url(#gold)"/>
+  <rect x="334" y="264" width="12" height="16" rx="3" fill="url(#gold)"/>
+
+  <!-- Porte du château (arche) -->
+  <path d="M 226 410 L 226 350 Q 226 320 256 320 Q 286 320 286 350 L 286 410 Z"
+        fill="#1A2567"/>
+
+  <!-- Fenêtres tour gauche -->
+  <rect x="178" y="295" width="16" height="20" rx="8" fill="#1A2567" opacity="0.8"/>
+
+  <!-- Fenêtres tour droite -->
+  <rect x="318" y="295" width="16" height="20" rx="8" fill="#1A2567" opacity="0.8"/>
+</svg>

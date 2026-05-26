@@ -3,29 +3,37 @@ import { Home, Calendar, BookOpen, Users, Settings } from 'lucide-react'
 import { cn } from '../../lib/utils'
 
 const NAV = [
-  { to: '/',               label: 'Accueil',        icon: Home },
-  { to: '/calendar',       label: 'Calendrier',     icon: Calendar },
-  { to: '/clients',        label: 'Réservations',   icon: BookOpen },
-  { to: '/collaborators',  label: 'Collaborateurs', icon: Users },
-  { to: '/general',        label: 'Paramètres',     icon: Settings },
+  { to: '/',              label: 'Accueil',        icon: Home },
+  { to: '/calendar',      label: 'Calendrier',     icon: Calendar },
+  { to: '/clients',       label: 'Réservations',   icon: BookOpen },
+  { to: '/collaborators', label: 'Équipe',         icon: Users },
+  { to: '/general',       label: 'Paramètres',     icon: Settings },
 ]
 
 export default function Layout() {
   const { pathname } = useLocation()
 
   return (
-    <div className="min-h-screen flex flex-col bg-cream-100">
-      {/* ── Contenu principal ── */}
-      <main className="flex-1 overflow-auto pb-24">
-        <Outlet />
+    /* app-shell = hauteur dynamique iOS (dvh), pas de scroll global */
+    <div className="app-shell bg-cream-100">
+
+      {/* ── Zone de défilement principale ─── */}
+      <main className="main-scroll">
+        {/*
+          key={pathname} : force un re-render + animation à chaque navigation.
+          Les données React Query sont en cache → pas de flash de chargement.
+        */}
+        <div key={pathname} className="page-enter min-h-full">
+          <Outlet />
+        </div>
       </main>
 
-      {/* ── Bottom navigation bar ── */}
+      {/* ── Bottom navigation bar ─────────── */}
       <nav
-        className="fixed bottom-0 left-0 right-0 z-50 shadow-nav bottom-nav-safe"
+        className="bottom-nav shadow-nav"
         style={{ background: 'linear-gradient(135deg, #1A2567 0%, #243580 100%)' }}
       >
-        <div className="flex items-end justify-around px-2 pt-2">
+        <div className="flex items-end justify-around px-1 pt-2">
           {NAV.map(({ to, label, icon: Icon }) => {
             const isActive = to === '/'
               ? pathname === '/'
@@ -35,25 +43,25 @@ export default function Layout() {
               <NavLink
                 key={to}
                 to={to}
-                className="flex flex-col items-center gap-1 min-w-0 flex-1 pb-1 relative group"
+                className="flex flex-col items-center gap-0.5 min-w-0 flex-1 pb-1 relative"
               >
-                {/* Indicateur actif — pilule dorée */}
+                {/* Indicateur actif — pilule dorée animée */}
                 {isActive && (
-                  <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-brand-400 animate-fade-in" />
+                  <span className="nav-active-pip absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-brand-400" />
                 )}
 
-                {/* Icône */}
+                {/* Zone tactile élargie pour faciliter le tap */}
                 <span
                   className={cn(
-                    'flex items-center justify-center w-11 h-9 rounded-2xl transition-all duration-200',
+                    'flex items-center justify-center w-11 h-10 rounded-2xl transition-all duration-200',
                     isActive
-                      ? 'bg-white/10 text-brand-300'
-                      : 'text-navy-300 group-hover:text-brand-300'
+                      ? 'bg-white/12 text-brand-300'
+                      : 'text-navy-400 active:bg-white/10 active:text-brand-300'
                   )}
                 >
                   <Icon
-                    size={20}
-                    strokeWidth={isActive ? 2.2 : 1.8}
+                    size={21}
+                    strokeWidth={isActive ? 2.2 : 1.7}
                     className="transition-all duration-200"
                   />
                 </span>
@@ -61,8 +69,8 @@ export default function Layout() {
                 {/* Label */}
                 <span
                   className={cn(
-                    'text-[10px] font-medium tracking-wide transition-colors duration-200 truncate max-w-full px-1',
-                    isActive ? 'text-brand-300' : 'text-navy-300 group-hover:text-brand-200'
+                    'text-[9px] font-semibold tracking-wide transition-colors duration-200 truncate max-w-full px-0.5 text-center',
+                    isActive ? 'text-brand-300' : 'text-navy-400'
                   )}
                 >
                   {label}

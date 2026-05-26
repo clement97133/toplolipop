@@ -6,7 +6,7 @@ import {
   isToday, addMonths, subMonths,
 } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { ChevronLeft, ChevronRight, Plus, Clock, MapPin, Users, Calendar, Tag, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Plus, UserPlus, Clock, MapPin, Users, Calendar, Tag, X } from 'lucide-react'
 import { Modal } from '../components/ui/Modal'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
@@ -19,7 +19,7 @@ import {
   EVENT_TYPE_LABELS, EVENT_TYPE_COLORS, EVENT_STATUS_COLORS,
   EVENT_STATUS_LABELS, EVENT_TYPE_CALENDAR_COLORS,
 } from '../lib/constants'
-import type { Event as AppEvent, EventType, EventStatus } from '../types'
+import type { Client, Event as AppEvent, EventType, EventStatus } from '../types'
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 const WEEK_DAYS = ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di']
@@ -338,6 +338,93 @@ function EventDetailModal({
   )
 }
 
+// ─── Modal création rapide client ────────────────────────────────────────────
+function QuickClientModal({ open, onClose, onCreated }: {
+  open: boolean
+  onClose: () => void
+  onCreated: (client: Client) => void
+}) {
+  const qc = useQueryClient()
+  const [form, setForm] = useState<Partial<Client>>({})
+  const set = (k: keyof Client, v: string) => setForm((f) => ({ ...f, [k]: v }))
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (d: Partial<Client>) => clientsApi.create(d),
+    onSuccess: (client) => {
+      qc.invalidateQueries({ queryKey: ['clients'] })
+      qc.invalidateQueries({ queryKey: ['stats'] })
+      onCreated(client)
+      onClose()
+    },
+  })
+
+  return (
+    <Modal
+      open={open}
+      onClose={onClose}
+      title="Nouveau client"
+      size="md"
+      footer={
+        <>
+          <Button variant="secondary" onClick={onClose}>Annuler</Button>
+          <Button onClick={() => mutate(form)} loading={isPending}>Créer</Button>
+        </>
+      }
+    >
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Input label="Prénom" required value={form.first_name ?? ''} onChange={(e) => set('first_name', e.target.value)} />
+          <Input label="Nom" required value={form.last_name ?? ''} onChange={(e) => set('last_name', e.target.value)} />
+          <Input label="Téléphone" type="tel" value={form.phone ?? ''} onChange={(e) => set('phone', e.target.value)} />
+          <Input label="Email" type="email" value={form.email ?? ''} onChange={(e) => set('email', e.target.value)} />
+        </div>
+        <Textarea label="Notes" value={form.notes ?? ''} onChange={(e) => set('notes', e.target.value)} rows={2} />
+      </div>
+    </Modal>
+  )
+}
+
+// ─── Sélecteur client avec création rapide ────────────────────────────────────
+function ClientPicker({ value, onChange }: {
+  value: string | null | undefined
+  onChange: (id: string | null) => void
+}) {
+  const [showQuick, setShowQuick] = useState(false)
+  const { data: clients = [] } = useQuery({ queryKey: ['clients'], queryFn: () => clientsApi.list() })
+
+  return (
+    <>
+      <div>
+        <label className="block text-xs font-semibold text-navy-600 mb-1.5">Client</label>
+        <div className="flex gap-2">
+          <select
+            value={value ?? ''}
+            onChange={(e) => onChange(e.target.value || null)}
+            className="flex-1 min-w-0 rounded-2xl border border-cream-300 bg-cream-50 px-3 py-2.5 text-sm text-navy-800 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent"
+          >
+            <option value="">Sélectionner un client…</option>
+            {clients.map((c) => (
+              <option key={c.id} value={c.id}>{c.first_name} {c.last_name}</option>
+            ))}
+          </select>
+          <button
+            type="button"
+            onClick={() => setShowQuick(true)}
+            className="flex-shrink-0 flex items-center gap-1 px-3 py-2.5 rounded-2xl bg-brand-50 text-brand-600 text-xs font-semibold hover:bg-brand-100 active:bg-brand-200 transition-colors border border-brand-200 whitespace-nowrap"
+          >
+            <UserPlus size={13} />Nouveau
+          </button>
+        </div>
+      </div>
+      <QuickClientModal
+        open={showQuick}
+        onClose={() => setShowQuick(false)}
+        onCreated={(client) => onChange(client.id)}
+      />
+    </>
+  )
+}
+
 // ─── Modal formulaire événement ───────────────────────────────────────────────
 function EventFormModal({
   open, onClose, initial, defaultDate,
@@ -352,8 +439,6 @@ function EventFormModal({
     initial ?? { status: 'pending', type: 'animation', child_count: 0, date: defaultDate ?? '' }
   )
   const set = (k: keyof AppEvent, v: string | number | null) => setForm((f) => ({ ...f, [k]: v }))
-
-  const { data: clients = [] } = useQuery({ queryKey: ['clients'], queryFn: () => clientsApi.list() })
 
   const { mutate, isPending } = useMutation({
     mutationFn: (d: Partial<AppEvent>) =>
@@ -378,14 +463,12 @@ function EventFormModal({
       <div className="space-y-4">
         <Input label="Titre" required value={form.title ?? ''} onChange={(e) => set('title', e.target.value)} placeholder="Ex: Anniversaire de Lucas" />
 
+        <ClientPicker
+          value={form.client_id}
+          onChange={(id) => set('client_id', id)}
+        />
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Select
-            label="Client"
-            value={form.client_id ?? ''}
-            onChange={(e) => set('client_id', e.target.value || null)}
-            options={clients.map((c) => ({ value: c.id, label: `${c.first_name} ${c.last_name}` }))}
-            placeholder="Sélectionner un client…"
-          />
           <Select
             label="Type"
             required
@@ -459,7 +542,7 @@ export default function CalendarPage() {
     <div className="min-h-screen bg-cream-100">
       {/* ── Header marine ── */}
       <div
-        className="px-5 pt-12 pb-5"
+        className="px-5 header-top pb-5"
         style={{ background: 'linear-gradient(145deg, #1A2567 0%, #243580 100%)' }}
       >
         <div className="flex items-center justify-between mb-4">

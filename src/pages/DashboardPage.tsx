@@ -134,7 +134,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-cream-100">
       {/* ── Header festif ── */}
       <div
-        className="relative overflow-hidden px-5 pt-12 pb-8"
+        className="relative overflow-hidden px-5 header-top pb-8"
         style={{
           background: 'linear-gradient(145deg, #1A2567 0%, #243580 55%, #2E4299 100%)',
         }}

@@ -7,14 +7,4 @@ export default defineConfig({
     outDir: 'dist',
     target: 'es2022',
   },
-  optimizeDeps: {
-    include: [
-      '@fullcalendar/react',
-      '@fullcalendar/core',
-      '@fullcalendar/daygrid',
-      '@fullcalendar/timegrid',
-      '@fullcalendar/interaction',
-      '@fullcalendar/list',
-    ],
-  },
 })
