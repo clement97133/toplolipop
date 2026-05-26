@@ -25,8 +25,7 @@ const EVENT_LABELS: Record<string, string> = {
 // ─── Salutation selon l'heure ─────────────────────────────────────────────────
 function getGreeting() {
   const h = new Date().getHours()
-  if (h < 12) return 'Bonjour'
-  if (h < 18) return 'Bonsoir'
+  if (h < 18) return 'Bonjour'
   return 'Bonsoir'
 }
 
@@ -76,7 +75,7 @@ function EventRow({ event }: { event: Event }) {
 
   return (
     <button
-      onClick={() => navigate('/clients')}
+      onClick={() => navigate('/calendar')}
       className="w-full flex items-center gap-3 p-3 rounded-2xl hover:bg-cream-200 active:bg-cream-300 transition-colors duration-150 text-left"
     >
       {/* Dot couleur */}

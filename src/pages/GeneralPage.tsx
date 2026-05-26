@@ -483,6 +483,7 @@ function EquipmentFormModal({ open, onClose, initial }: { open: boolean; onClose
     initial ?? { status: 'available', condition: 'good', category: 'inflatable' }
   )
   const set = (k: keyof Equipment, v: string | number | null) => setForm((f) => ({ ...f, [k]: v }))
+  useEffect(() => { if (open) setForm(initial ?? { status: 'available', condition: 'good', category: 'inflatable' }) }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const { mutate, isPending } = useMutation({
     mutationFn: (d: Partial<Equipment>) => initial ? equipmentApi.update(initial.id, d) : equipmentApi.create(d),
@@ -517,6 +518,7 @@ function PricingFormModal({ open, onClose, initial }: { open: boolean; onClose: 
   const qc = useQueryClient()
   const [form, setForm] = useState<Partial<Pricing>>(initial ?? { category: 'babysitting', unit: 'hour', active: 1 })
   const set = (k: keyof Pricing, v: string | number) => setForm((f) => ({ ...f, [k]: v }))
+  useEffect(() => { if (open) setForm(initial ?? { category: 'babysitting', unit: 'hour', active: 1 }) }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const { mutate, isPending } = useMutation({
     mutationFn: (d: Partial<Pricing>) => initial ? pricingApi.update(initial.id, d) : pricingApi.create(d),

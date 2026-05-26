@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   format, startOfMonth, endOfMonth, eachDayOfInterval,
@@ -348,6 +348,9 @@ function QuickClientModal({ open, onClose, onCreated }: {
   const [form, setForm] = useState<Partial<Client>>({})
   const set = (k: keyof Client, v: string) => setForm((f) => ({ ...f, [k]: v }))
 
+  // Reset form each time the modal opens
+  useEffect(() => { if (open) setForm({}) }, [open])
+
   const { mutate, isPending } = useMutation({
     mutationFn: (d: Partial<Client>) => clientsApi.create(d),
     onSuccess: (client) => {
@@ -439,6 +442,11 @@ function EventFormModal({
     initial ?? { status: 'pending', type: 'animation', child_count: 0, date: defaultDate ?? '' }
   )
   const set = (k: keyof AppEvent, v: string | number | null) => setForm((f) => ({ ...f, [k]: v }))
+
+  // Reset form every time the modal opens (handles create → edit → create transitions)
+  useEffect(() => {
+    if (open) setForm(initial ?? { status: 'pending', type: 'animation', child_count: 0, date: defaultDate ?? '' })
+  }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const { mutate, isPending } = useMutation({
     mutationFn: (d: Partial<AppEvent>) =>

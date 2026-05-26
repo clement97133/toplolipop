@@ -14,7 +14,9 @@ export function parseJson<T>(value: string | T[] | null | undefined, fallback: T
 export function formatDate(date: string | null | undefined, opts?: Intl.DateTimeFormatOptions): string {
   if (!date) return '—'
   try {
-    return new Intl.DateTimeFormat('fr-FR', opts ?? { day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(date))
+    // Date-only strings (YYYY-MM-DD) parse as UTC midnight → add noon to avoid day-shift in UTC-X timezones (Saint-Barth = UTC-4)
+    const d = /^\d{4}-\d{2}-\d{2}$/.test(date) ? new Date(date + 'T12:00:00') : new Date(date)
+    return new Intl.DateTimeFormat('fr-FR', opts ?? { day: '2-digit', month: '2-digit', year: 'numeric' }).format(d)
   } catch { return date }
 }
 
