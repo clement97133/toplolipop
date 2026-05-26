@@ -88,14 +88,22 @@ export default function CollaboratorsPage() {
   if (isLoading) return <PageLoader />
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-xl font-bold text-gray-900">Collaborateurs</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{filtered.length} collaborateur{filtered.length !== 1 ? 's' : ''}</p>
+    <div className="min-h-screen bg-cream-100">
+      {/* Header marine */}
+      <div
+        className="px-5 pt-12 pb-6"
+        style={{ background: 'linear-gradient(145deg, #1A2567 0%, #243580 100%)' }}
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-white">Collaborateurs</h1>
+            <p className="text-sm text-navy-200 mt-0.5">{filtered.length} collaborateur{filtered.length !== 1 ? 's' : ''}</p>
+          </div>
+          <Button onClick={() => setShowForm(true)} size="sm"><Plus size={15} />Nouveau</Button>
         </div>
-        <Button onClick={() => setShowForm(true)}><Plus size={16} />Nouveau collaborateur</Button>
       </div>
+
+      <div className="px-4 py-5 max-w-7xl mx-auto">
 
       <div className="flex flex-wrap items-center gap-3 mb-5">
         <SearchInput value={search} onChange={setSearch} placeholder="Rechercher…" className="max-w-xs" />
@@ -122,7 +130,7 @@ export default function CollaboratorsPage() {
             return (
               <div
                 key={c.id}
-                className="bg-white rounded-xl border border-gray-100 shadow-card hover:shadow-card-hover hover:border-gray-200 transition-all duration-200 cursor-pointer group"
+                className="bg-white rounded-3xl border border-cream-300/60 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group"
                 onClick={() => navigate(`/collaborators/${c.id}`)}
               >
                 <div className="p-4">
@@ -130,12 +138,12 @@ export default function CollaboratorsPage() {
                     <Avatar firstName={c.first_name} lastName={c.last_name} size="lg" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between">
-                        <p className="font-semibold text-sm text-gray-900 truncate">{c.first_name} {c.last_name}</p>
-                        <ChevronRight size={15} className="text-gray-300 group-hover:text-brand-500 transition-colors flex-shrink-0" />
+                        <p className="font-bold text-sm text-navy-800 truncate">{c.first_name} {c.last_name}</p>
+                        <ChevronRight size={15} className="text-navy-300 group-hover:text-brand-500 transition-colors flex-shrink-0" />
                       </div>
                       <div className="flex items-center gap-1.5 mt-1">
                         <Badge className={COLLABORATOR_ROLE_COLORS[c.role as CollaboratorRole]}>{COLLABORATOR_ROLE_LABELS[c.role as CollaboratorRole]}</Badge>
-                        <Badge className={c.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'} dot>
+                        <Badge className={c.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-cream-200 text-navy-400'} dot>
                           {c.status === 'active' ? 'Actif' : 'Inactif'}
                         </Badge>
                       </div>
@@ -144,33 +152,33 @@ export default function CollaboratorsPage() {
 
                   <div className="space-y-1.5">
                     {c.phone && (
-                      <div className="flex items-center gap-2 text-xs text-gray-500">
-                        <Phone size={11} className="flex-shrink-0" />{c.phone}
+                      <div className="flex items-center gap-2 text-xs text-navy-500">
+                        <Phone size={11} className="flex-shrink-0 text-brand-400" />{c.phone}
                       </div>
                     )}
                     {c.email && (
-                      <div className="flex items-center gap-2 text-xs text-gray-400 truncate">
-                        <Mail size={11} className="flex-shrink-0" />{c.email}
+                      <div className="flex items-center gap-2 text-xs text-navy-400 truncate">
+                        <Mail size={11} className="flex-shrink-0 text-navy-300" />{c.email}
                       </div>
                     )}
                     {c.hourly_rate && (
-                      <p className="text-xs font-semibold text-brand-600">{formatCurrency(c.hourly_rate)} / h</p>
+                      <p className="text-xs font-bold text-brand-600">{formatCurrency(c.hourly_rate)} / h</p>
                     )}
                   </div>
 
                   {skills.length > 0 && (
                     <div className="flex flex-wrap gap-1 mt-3">
                       {skills.slice(0, 3).map((s) => (
-                        <span key={s} className="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">{s}</span>
+                        <span key={s} className="text-[10px] bg-cream-200 text-navy-600 px-2 py-0.5 rounded-full font-medium">{s}</span>
                       ))}
-                      {skills.length > 3 && <span className="text-[10px] text-gray-400">+{skills.length - 3}</span>}
+                      {skills.length > 3 && <span className="text-[10px] text-navy-400">+{skills.length - 3}</span>}
                     </div>
                   )}
                 </div>
-                <div className="px-4 py-2.5 border-t border-gray-50 flex justify-end">
+                <div className="px-4 py-2.5 border-t border-cream-200 flex justify-end">
                   <button
                     onClick={(e) => { e.stopPropagation(); if (confirm('Supprimer ce collaborateur ?')) deleteMutation.mutate(c.id) }}
-                    className="p-1.5 rounded-lg hover:bg-red-50 text-gray-300 hover:text-red-500 transition-colors"
+                    className="p-1.5 rounded-xl hover:bg-red-50 text-navy-300 hover:text-red-500 transition-colors"
                   >
                     <Trash2 size={13} />
                   </button>
@@ -182,6 +190,7 @@ export default function CollaboratorsPage() {
       )}
 
       <CollaboratorFormModal open={showForm} onClose={() => setShowForm(false)} />
+      </div>
     </div>
   )
 }

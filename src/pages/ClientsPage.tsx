@@ -21,7 +21,7 @@ function ClientCard({ client, onDelete }: { client: Client; onDelete: (id: strin
 
   return (
     <div
-      className="bg-white rounded-xl border border-gray-100 shadow-card hover:shadow-card-hover hover:border-gray-200 transition-all duration-200 cursor-pointer group"
+      className="bg-white rounded-3xl border border-cream-300/60 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group"
       onClick={() => navigate(`/clients/${client.id}`)}
     >
       <div className="p-4">
@@ -29,25 +29,25 @@ function ClientCard({ client, onDelete }: { client: Client; onDelete: (id: strin
           <Avatar firstName={client.first_name} lastName={client.last_name} size="lg" />
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between">
-              <p className="font-semibold text-gray-900 truncate">{client.first_name} {client.last_name}</p>
-              <ChevronRight size={16} className="text-gray-300 group-hover:text-brand-500 transition-colors flex-shrink-0" />
+              <p className="font-bold text-navy-800 truncate">{client.first_name} {client.last_name}</p>
+              <ChevronRight size={16} className="text-navy-300 group-hover:text-brand-500 transition-colors flex-shrink-0" />
             </div>
             <div className="space-y-1 mt-1.5">
               {client.phone && (
-                <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                  <Phone size={11} className="flex-shrink-0" />
+                <div className="flex items-center gap-1.5 text-xs text-navy-500">
+                  <Phone size={11} className="flex-shrink-0 text-brand-400" />
                   {client.phone}
                 </div>
               )}
               {client.email && (
-                <div className="flex items-center gap-1.5 text-xs text-gray-400 truncate">
-                  <Mail size={11} className="flex-shrink-0" />
+                <div className="flex items-center gap-1.5 text-xs text-navy-400 truncate">
+                  <Mail size={11} className="flex-shrink-0 text-navy-300" />
                   {client.email}
                 </div>
               )}
               {client.address && (
-                <div className="flex items-center gap-1.5 text-xs text-gray-400 truncate">
-                  <MapPin size={11} className="flex-shrink-0" />
+                <div className="flex items-center gap-1.5 text-xs text-navy-400 truncate">
+                  <MapPin size={11} className="flex-shrink-0 text-navy-300" />
                   {client.address}
                 </div>
               )}
@@ -55,20 +55,20 @@ function ClientCard({ client, onDelete }: { client: Client; onDelete: (id: strin
             {tags.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {tags.slice(0, 3).map((tag) => (
-                  <Badge key={tag} className="bg-brand-50 text-brand-600 text-[10px] px-1.5 py-0">
+                  <Badge key={tag} className="bg-brand-50 text-brand-600 text-[10px] px-2 py-0.5">
                     {tag}
                   </Badge>
                 ))}
-                {tags.length > 3 && <span className="text-[10px] text-gray-400">+{tags.length - 3}</span>}
+                {tags.length > 3 && <span className="text-[10px] text-navy-400">+{tags.length - 3}</span>}
               </div>
             )}
           </div>
         </div>
       </div>
-      <div className="px-4 py-2.5 border-t border-gray-50 flex justify-end">
+      <div className="px-4 py-2.5 border-t border-cream-200 flex justify-end">
         <button
           onClick={(e) => { e.stopPropagation(); if (confirm('Supprimer ce client ?')) onDelete(client.id) }}
-          className="p-1.5 rounded-lg hover:bg-red-50 text-gray-300 hover:text-red-500 transition-colors"
+          className="p-1.5 rounded-xl hover:bg-red-50 text-navy-300 hover:text-red-500 transition-colors"
         >
           <Trash2 size={13} />
         </button>
@@ -139,37 +139,45 @@ export default function ClientsPage() {
   })
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-xl font-bold text-gray-900">Dossiers Clients</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{data.length} client{data.length !== 1 ? 's' : ''}</p>
+    <div className="min-h-screen bg-cream-100">
+      {/* Header marine */}
+      <div
+        className="px-5 pt-12 pb-6"
+        style={{ background: 'linear-gradient(145deg, #1A2567 0%, #243580 100%)' }}
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-white">Réservations</h1>
+            <p className="text-sm text-navy-200 mt-0.5">{data.length} client{data.length !== 1 ? 's' : ''}</p>
+          </div>
+          <Button onClick={() => setShowForm(true)} size="sm"><Plus size={15} />Nouveau</Button>
         </div>
-        <Button onClick={() => setShowForm(true)}><Plus size={16} />Nouveau client</Button>
       </div>
 
-      <div className="mb-4">
-        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher un client…" className="max-w-sm" />
-      </div>
-
-      {isLoading ? (
-        <PageLoader />
-      ) : data.length === 0 ? (
-        <EmptyState
-          icon={Users}
-          title={search ? 'Aucun client trouvé' : 'Aucun client'}
-          description={search ? `Aucun résultat pour "${search}"` : 'Créez votre premier dossier client.'}
-          action={!search ? <Button onClick={() => setShowForm(true)}><Plus size={15} />Nouveau client</Button> : undefined}
-        />
-      ) : (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {data.map((client) => (
-            <ClientCard key={client.id} client={client} onDelete={(id) => deleteMutation.mutate(id)} />
-          ))}
+      <div className="px-4 py-5 max-w-7xl mx-auto">
+        <div className="mb-4">
+          <SearchInput value={search} onChange={setSearch} placeholder="Rechercher un client…" className="max-w-sm" />
         </div>
-      )}
 
-      <ClientFormModal open={showForm} onClose={() => setShowForm(false)} />
+        {isLoading ? (
+          <PageLoader />
+        ) : data.length === 0 ? (
+          <EmptyState
+            icon={Users}
+            title={search ? 'Aucun client trouvé' : 'Aucun client'}
+            description={search ? `Aucun résultat pour "${search}"` : 'Créez votre premier dossier client.'}
+            action={!search ? <Button onClick={() => setShowForm(true)}><Plus size={15} />Nouveau client</Button> : undefined}
+          />
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {data.map((client) => (
+              <ClientCard key={client.id} client={client} onDelete={(id) => deleteMutation.mutate(id)} />
+            ))}
+          </div>
+        )}
+
+        <ClientFormModal open={showForm} onClose={() => setShowForm(false)} />
+      </div>
     </div>
   )
 }

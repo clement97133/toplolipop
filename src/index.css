@@ -3,64 +3,93 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    box-sizing: border-box;
+  * { box-sizing: border-box; }
+
+  html {
+    /* Fond crème chaud partout, y compris derrière la nav */
+    background-color: #FDF8EE;
   }
 
   body {
-    @apply bg-gray-50 text-gray-900 antialiased;
+    @apply bg-cream-100 text-navy-700 antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    /* Espace pour la bottom nav fixe */
+    padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    @apply bg-transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    @apply bg-gray-200 rounded-full;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-300;
-  }
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { @apply bg-transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-cream-300 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-cream-400; }
 }
 
 @layer components {
+  /* ── FullCalendar — couleurs dorées ───────────────── */
   .fc {
-    --fc-border-color: theme('colors.gray.200');
-    --fc-button-bg-color: theme('colors.brand.600');
-    --fc-button-border-color: theme('colors.brand.600');
-    --fc-button-hover-bg-color: theme('colors.brand.700');
-    --fc-button-hover-border-color: theme('colors.brand.700');
-    --fc-button-active-bg-color: theme('colors.brand.700');
-    --fc-button-active-border-color: theme('colors.brand.700');
-    --fc-today-bg-color: theme('colors.brand.50');
+    --fc-border-color: #F3DEC0;
+    --fc-button-bg-color: #B07A13;
+    --fc-button-border-color: #B07A13;
+    --fc-button-hover-bg-color: #8C610F;
+    --fc-button-hover-border-color: #8C610F;
+    --fc-button-active-bg-color: #8C610F;
+    --fc-button-active-border-color: #8C610F;
+    --fc-today-bg-color: #FDF8EC;
     --fc-event-border-color: transparent;
     --fc-page-bg-color: #ffffff;
     font-family: 'Inter', system-ui, sans-serif;
   }
 
   .fc .fc-toolbar-title {
-    @apply text-lg font-semibold text-gray-900;
+    @apply text-base font-semibold text-navy-700;
   }
 
   .fc .fc-button {
-    @apply text-sm font-medium rounded-lg px-3 py-1.5 capitalize;
+    @apply text-sm font-medium rounded-xl px-3 py-1.5 capitalize;
   }
 
   .fc .fc-daygrid-event {
-    @apply rounded font-medium text-xs px-1.5 py-0.5 cursor-pointer;
+    @apply rounded-lg font-medium text-xs px-2 py-0.5 cursor-pointer;
   }
 
   .fc .fc-col-header-cell-cushion,
   .fc .fc-daygrid-day-number {
-    @apply text-sm text-gray-600 no-underline;
+    @apply text-sm text-navy-400 no-underline font-medium;
   }
 
   .fc .fc-day-today .fc-daygrid-day-number {
-    @apply bg-brand-600 text-white rounded-full w-7 h-7 flex items-center justify-center;
+    @apply bg-brand-500 text-white rounded-full w-7 h-7 flex items-center justify-center font-bold;
+  }
+
+  /* ── Carte festive avec brillance dorée ───────────── */
+  .card-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .card-shine::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 40%;
+    height: 200%;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.18) 50%,
+      transparent 60%
+    );
+    transform: skewX(-20deg);
+    animation: shine 4s ease-in-out infinite;
+  }
+  @keyframes shine {
+    0%   { left: -60%; }
+    40%  { left: 120%; }
+    100% { left: 120%; }
+  }
+
+  /* ── Bottom nav ──────────────────────────────────── */
+  .bottom-nav-safe {
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
   }
 }

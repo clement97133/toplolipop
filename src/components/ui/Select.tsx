@@ -10,22 +10,27 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ({ label, error, options, placeholder, className, ...props }, ref) => (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1.5">
       {label && (
-        <label className="text-sm font-medium text-gray-700">
+        <label className="text-sm font-semibold text-navy-700">
           {label}
-          {props.required && <span className="text-red-500 ml-0.5">*</span>}
+          {props.required && <span className="text-red-400 ml-0.5">*</span>}
         </label>
       )}
       <select
         ref={ref}
         className={cn(
-          'h-9 px-3 rounded-lg border bg-white text-sm text-gray-900 transition-colors appearance-none',
-          'focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500',
-          error ? 'border-red-400' : 'border-gray-200 hover:border-gray-300',
+          'h-10 px-4 rounded-2xl border bg-white text-sm text-navy-800 transition-all appearance-none',
+          'focus:outline-none focus:ring-2 focus:ring-brand-400/60 focus:border-brand-400',
+          error ? 'border-red-300 bg-red-50' : 'border-cream-300 hover:border-cream-400',
           className
         )}
-        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center', paddingRight: '28px' }}
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231A2567' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'right 14px center',
+          paddingRight: '36px',
+        }}
         {...props}
       >
         {placeholder && <option value="">{placeholder}</option>}
@@ -33,7 +38,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           <option key={o.value} value={o.value}>{o.label}</option>
         ))}
       </select>
-      {error && <p className="text-xs text-red-500">{error}</p>}
+      {error && <p className="text-xs text-red-500 font-medium">{error}</p>}
     </div>
   )
 )

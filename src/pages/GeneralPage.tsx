@@ -38,12 +38,12 @@ function StatsBanner() {
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
       {[
         { label: 'Clients', value: data.clients, color: 'text-brand-600' },
-        { label: 'Événements', value: data.events, color: 'text-blue-600' },
-        { label: 'Matériel dispo', value: data.availableEquipment, color: 'text-green-600' },
-        { label: 'Collaborateurs', value: data.activeCollaborators, color: 'text-rose-500' },
+        { label: 'Événements', value: data.events, color: 'text-navy-600' },
+        { label: 'Matériel dispo', value: data.availableEquipment, color: 'text-palm-500' },
+        { label: 'Collaborateurs', value: data.activeCollaborators, color: 'text-purple-600' },
       ].map((s) => (
         <Card key={s.label} padding="md">
-          <p className="text-xs text-gray-500 mb-1">{s.label}</p>
+          <p className="text-xs text-navy-400 mb-1">{s.label}</p>
           <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
         </Card>
       ))}
@@ -513,20 +513,25 @@ export default function GeneralPage() {
   const [activeTab, setActiveTab] = useState('babysitters')
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <div className="mb-6">
-        <h1 className="text-xl font-bold text-gray-900">Général</h1>
-        <p className="text-sm text-gray-500 mt-0.5">Vue d'ensemble et gestion des ressources</p>
+    <div className="min-h-screen bg-cream-100">
+      {/* Header marine */}
+      <div
+        className="px-5 pt-12 pb-6"
+        style={{ background: 'linear-gradient(145deg, #1A2567 0%, #243580 100%)' }}
+      >
+        <h1 className="text-xl font-bold text-white">Paramètres</h1>
+        <p className="text-sm text-navy-200 mt-0.5">Baby-sitters · Matériel · Tarifs · Documents</p>
       </div>
 
-      <StatsBanner />
+      <div className="px-4 py-5 max-w-7xl mx-auto">
+        <StatsBanner />
+        <Tabs tabs={TABS} active={activeTab} onChange={setActiveTab} className="mb-5" />
 
-      <Tabs tabs={TABS} active={activeTab} onChange={setActiveTab} className="mb-6" />
-
-      {activeTab === 'babysitters' && <BabysittersSection />}
-      {activeTab === 'equipment' && <EquipmentSection />}
-      {activeTab === 'pricing' && <PricingSection />}
-      {activeTab === 'documents' && <DocumentsSection />}
+        {activeTab === 'babysitters' && <BabysittersSection />}
+        {activeTab === 'equipment' && <EquipmentSection />}
+        {activeTab === 'pricing' && <PricingSection />}
+        {activeTab === 'documents' && <DocumentsSection />}
+      </div>
     </div>
   )
 }

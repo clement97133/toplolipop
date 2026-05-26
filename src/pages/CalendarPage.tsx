@@ -185,31 +185,42 @@ export default function CalendarPage() {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-56px)]">
-      {/* Filters */}
-      <div className="bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between gap-4 flex-shrink-0">
+    <div className="flex flex-col h-[calc(100vh-96px)]">
+      {/* Header marine */}
+      <div
+        className="px-5 pt-12 pb-4 flex-shrink-0"
+        style={{ background: 'linear-gradient(145deg, #1A2567 0%, #243580 100%)' }}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-xl font-bold text-white">Calendrier</h1>
+          <Button size="sm" onClick={() => { setEditingEvent(null); setDefaultDate(''); setShowForm(true) }}>
+            + Événement
+          </Button>
+        </div>
+        {/* Filtres type */}
         <div className="flex gap-2 flex-wrap">
           {FILTER_TYPES.map((f) => (
             <button
               key={f.value}
               onClick={() => setTypeFilter(f.value)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${typeFilter === f.value ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors ${
+                typeFilter === f.value
+                  ? 'bg-brand-400 text-navy-900'
+                  : 'bg-white/10 text-navy-100 hover:bg-white/20'
+              }`}
             >
               {f.label}
             </button>
           ))}
         </div>
-        <Button size="sm" onClick={() => { setEditingEvent(null); setDefaultDate(''); setShowForm(true) }}>
-          + Ajouter un événement
-        </Button>
       </div>
 
-      {/* Legend */}
-      <div className="bg-white border-b border-gray-50 px-6 py-2 flex items-center gap-4 flex-shrink-0">
+      {/* Légende */}
+      <div className="bg-white border-b border-cream-200 px-5 py-2 flex items-center gap-4 flex-shrink-0 flex-wrap">
         {Object.entries(EVENT_TYPE_CALENDAR_COLORS).map(([type, color]) => (
           <div key={type} className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
-            <span className="text-xs text-gray-500">{EVENT_TYPE_LABELS[type as EventType]}</span>
+            <span className="text-xs text-navy-400 font-medium">{EVENT_TYPE_LABELS[type as EventType]}</span>
           </div>
         ))}
       </div>

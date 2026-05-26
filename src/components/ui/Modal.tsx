@@ -34,18 +34,45 @@ export function Modal({ open, onClose, title, children, size = 'md', footer }: M
   if (!open) return null
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div className={cn('relative w-full bg-white rounded-2xl shadow-modal flex flex-col max-h-[90vh] animate-slide-up', sizes[size])}>
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 flex-shrink-0">
-          <h2 className="text-base font-semibold text-gray-900">{title}</h2>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 animate-fade-in">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-navy-900/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      {/* Panel */}
+      <div className={cn(
+        'relative w-full bg-cream-50 flex flex-col max-h-[92vh] animate-slide-up shadow-modal',
+        // Mobile: slide-up depuis le bas
+        'rounded-t-4xl sm:rounded-3xl',
+        sizes[size]
+      )}>
+        {/* Drag handle (mobile) */}
+        <div className="flex justify-center pt-3 sm:hidden flex-shrink-0">
+          <div className="w-10 h-1 rounded-full bg-cream-300" />
+        </div>
+
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 flex-shrink-0">
+          <h2 className="text-base font-bold text-navy-800">{title}</h2>
+          <button
+            onClick={onClose}
+            className="p-2 rounded-2xl hover:bg-cream-200 text-navy-400 hover:text-navy-600 transition-colors"
+          >
             <X size={18} />
           </button>
         </div>
+
+        {/* Séparateur doré */}
+        <div className="mx-6 h-px bg-gradient-to-r from-brand-200 via-brand-300 to-transparent flex-shrink-0" />
+
+        {/* Corps */}
         <div className="overflow-y-auto flex-1 px-6 py-5">{children}</div>
+
+        {/* Footer */}
         {footer && (
-          <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3 flex-shrink-0 bg-gray-50 rounded-b-2xl">
+          <div className="px-6 py-4 flex items-center justify-end gap-3 flex-shrink-0 border-t border-cream-200">
             {footer}
           </div>
         )}

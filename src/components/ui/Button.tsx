@@ -8,17 +8,17 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants = {
-  primary: 'bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 shadow-sm',
-  secondary: 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 active:bg-gray-100 shadow-sm',
-  outline: 'bg-transparent text-brand-600 border border-brand-200 hover:bg-brand-50',
-  ghost: 'bg-transparent text-gray-600 hover:bg-gray-100 hover:text-gray-900',
-  danger: 'bg-red-500 text-white hover:bg-red-600 active:bg-red-700 shadow-sm',
+  primary:   'bg-gradient-to-br from-brand-500 to-brand-600 text-white hover:from-brand-600 hover:to-brand-700 active:from-brand-700 shadow-btn',
+  secondary: 'bg-white text-navy-700 border border-cream-300 hover:bg-cream-100 active:bg-cream-200 shadow-card',
+  outline:   'bg-transparent text-brand-600 border border-brand-300 hover:bg-brand-50',
+  ghost:     'bg-transparent text-navy-600 hover:bg-cream-200 hover:text-navy-800',
+  danger:    'bg-red-500 text-white hover:bg-red-600 active:bg-red-700 shadow-sm',
 }
 
 const sizes = {
-  sm: 'h-8 px-3 text-xs gap-1.5',
-  md: 'h-9 px-4 text-sm gap-2',
-  lg: 'h-10 px-5 text-sm gap-2',
+  sm: 'h-8 px-3.5 text-xs gap-1.5 rounded-xl',
+  md: 'h-10 px-5 text-sm gap-2 rounded-2xl',
+  lg: 'h-12 px-6 text-sm gap-2 rounded-2xl',
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -27,7 +27,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ref={ref}
       disabled={disabled || loading}
       className={cn(
-        'inline-flex items-center justify-center rounded-lg font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none',
+        'inline-flex items-center justify-center font-semibold transition-all duration-150',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2',
+        'disabled:opacity-50 disabled:cursor-not-allowed select-none',
+        'active:scale-95',
         variants[variant],
         sizes[size],
         className

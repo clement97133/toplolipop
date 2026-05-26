@@ -14,20 +14,25 @@ interface TabsProps {
 export function Tabs({ tabs, active, onChange, variant = 'underline', className }: TabsProps) {
   if (variant === 'pills') {
     return (
-      <div className={cn('flex gap-1 p-1 bg-gray-100 rounded-lg', className)}>
+      <div className={cn('flex gap-1.5 p-1.5 bg-cream-200 rounded-2xl', className)}>
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => onChange(tab.id)}
             className={cn(
-              'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-all',
-              active === tab.id ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'
+              'flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 flex-1 justify-center',
+              active === tab.id
+                ? 'bg-white text-navy-700 shadow-card'
+                : 'text-navy-400 hover:text-navy-600'
             )}
           >
             {tab.icon}
             {tab.label}
             {tab.count !== undefined && (
-              <span className={cn('text-xs rounded-full px-1.5 py-0.5 min-w-[20px] text-center', active === tab.id ? 'bg-brand-50 text-brand-600' : 'bg-gray-200 text-gray-500')}>
+              <span className={cn(
+                'text-[10px] rounded-full px-1.5 py-0.5 min-w-[18px] text-center font-bold',
+                active === tab.id ? 'bg-brand-100 text-brand-600' : 'bg-cream-300 text-navy-400'
+              )}>
                 {tab.count}
               </span>
             )}
@@ -37,23 +42,27 @@ export function Tabs({ tabs, active, onChange, variant = 'underline', className 
     )
   }
 
+  // Underline
   return (
-    <div className={cn('flex border-b border-gray-200', className)}>
+    <div className={cn('flex gap-1 border-b border-cream-300', className)}>
       {tabs.map((tab) => (
         <button
           key={tab.id}
           onClick={() => onChange(tab.id)}
           className={cn(
-            'flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-all -mb-px',
+            'flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 transition-all -mb-px whitespace-nowrap',
             active === tab.id
-              ? 'border-brand-600 text-brand-600'
-              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              ? 'border-brand-500 text-brand-600'
+              : 'border-transparent text-navy-400 hover:text-navy-700 hover:border-cream-400'
           )}
         >
           {tab.icon}
           {tab.label}
           {tab.count !== undefined && (
-            <span className={cn('text-xs rounded-full px-1.5 py-0.5 min-w-[20px] text-center', active === tab.id ? 'bg-brand-100 text-brand-600' : 'bg-gray-100 text-gray-500')}>
+            <span className={cn(
+              'text-[10px] rounded-full px-1.5 py-0.5 min-w-[18px] text-center font-bold',
+              active === tab.id ? 'bg-brand-100 text-brand-600' : 'bg-cream-200 text-navy-400'
+            )}>
               {tab.count}
             </span>
           )}
